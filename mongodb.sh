@@ -12,7 +12,7 @@ LOG_FILE="$LOGS_FOLDER/$SCRIPT_NAME.log"
 mkdir -p $LOGS_FOLDER
 echo "Script started executing at: $(date)" | tee -a $LOG_FILE
 
-# check the user has privillages or not
+# check the user has root priveleges or not
 if [ $USERID -ne 0 ]
 then
     echo -e "$R ERROR:: Please run this script with root access $N" | tee -a $LOG_FILE
@@ -38,14 +38,14 @@ VALIDATE $? "Copying MongoDB repo"
 dnf install mongodb-org -y &>>$LOG_FILE
 VALIDATE $? "Installing mongodb server"
 
-systemctl enable mongod     &>>$LOG_FILE
+systemctl enable mongod &>>$LOG_FILE
 VALIDATE $? "Enabling MongoDB"
 
-systemctl start mongod      &>>$LOG_FILE
+systemctl start mongod &>>$LOG_FILE
 VALIDATE $? "Starting MongoDB"
 
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mongod.conf
 VALIDATE $? "Editing MongoDB conf file for remote connections"
 
-systenctl restart mongod    &>>$LOG_FILE
+systemctl restart mongod &>>$LOG_FILE
 VALIDATE $? "Restarting MongoDB"
