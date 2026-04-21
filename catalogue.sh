@@ -77,6 +77,10 @@ cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing MongoDB client"
 
-mongosh --host mongodb.vara84s.site </app/db/master-data.js &>>$LOG_FILE
-VALIDATE $? "Loading data into MongoDB"
-
+STATUS=$(mongosh --host mongodb.vara84s.site </app/db/master-data.js) &>>$LOG_FILE
+if [ $STATUS -lt 0 ]
+     mongosh --host mongodb.vara84s.site </app/db/master-data.js &>>$LOG_FILE
+     VALIDATE $? "Loading data into MongoDB"
+then
+    echo -e "Loading already done... $Y SKIPPING $N"
+fi
