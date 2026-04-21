@@ -71,13 +71,13 @@ VALIDATE $? "Copying catalogue service"
 systemctl demon-reload &>>$LOG_FILE
 systemctl enable catalogue  &>>$LOG_FILE
 systemctl start catalogue
-VALIDATE $? "Catalogue started"
+VALIDATE $? "Starting catalogue"  #Catalogue started
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo
 dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing MongoDB client"
 
-STATUS=$(mongosh --host mongodb.vara84s.site </app/db/master-data.js) &>>$LOG_FILE
+STATUS=$(mongosh --host mongodb.vara84s.site --eval 'db.getMongo().getDBNames().indexOf("catalogue")') &>>$LOG_FILE
 if [ $STATUS -lt 0 ]
 then
      mongosh --host mongodb.vara84s.site </app/db/master-data.js &>>$LOG_FILE
