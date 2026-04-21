@@ -79,8 +79,9 @@ VALIDATE $? "Installing MongoDB client"
 
 STATUS=$(mongosh --host mongodb.vara84s.site </app/db/master-data.js) &>>$LOG_FILE
 if [ $STATUS -lt 0 ]
+then
      mongosh --host mongodb.vara84s.site </app/db/master-data.js &>>$LOG_FILE
      VALIDATE $? "Loading data into MongoDB"
-then
-    echo -e "Loading already done... $Y SKIPPING $N"
+else
+    echo -e "Data is already loaded... $Y SKIPPING $N"
 fi
