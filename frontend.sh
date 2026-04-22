@@ -37,14 +37,14 @@ VALIDATE(){
 dnf module disable nginx -y  &>>$LOG_FILE
 VALIDATE $? "Disabling Default nginx"
 
-dnf module enable nginx:1.24 -y
+dnf module enable nginx:1.24 -y &>>$LOG_FILE
 VALIDATE $? "Enabling Nginx:1.24"
 
-dnf install nginx -y
+dnf install nginx -y &>>$LOG_FILE
 VALIDATE $? "Installing Nginx"
 
-systemctl enable nginx 
-systemctl start nginx 
+systemctl enable nginx  &>>$LOG_FILE
+systemctl start nginx  &>>$LOG_FILE
 VALIDATE $? "Starting Nginx"
 
 rm -rf /usr/share/nginx/html/*
@@ -63,7 +63,7 @@ VALIDATE $? "Remove default nginx conf"
 cp $SCRIPT_DIR/nginx.conf /etc/nginx/nginx.conf
 VALIDATE $? "Copying nginx.conf"
 
-systemctl restart nginx 
+systemctl restart nginx &>>$LOG_FILE
 VALIDATE $? "Restarting nginx"
 
 END_TIME=$(date +%s)
