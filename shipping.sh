@@ -37,7 +37,7 @@ VALIDATE(){
     fi
 }
 
-dnf install maven -y
+dnf install maven -y &>>$LOG_FILE
 VALIDATE $? "Installing MAVEN and Java"
 
 id roboshop 
@@ -63,10 +63,11 @@ VALIDATE $? "Unzipping shipping"
 mvn clean package  &>>$LOG_FILE
 VALIDATE $? "Packaging the shipping application"
 
+
 mv target/shipping-1.0.jar shipping.jar  &>>$LOG_FILE
 VALIDATE $? "Moving and renaming Jar file"
 
-cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service
+cp $SCRIPT_DIR/shipping.service /etc/systemd/system/shipping.service &>>$LOG_FILE
 
 systemctl daemon-reload &>>$LOG_FILE
 VALIDATE $? "Daemon Realod"
