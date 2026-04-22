@@ -41,5 +41,3 @@ VALIDATE $? "Enabling Redis:7"
 
 dnf install redis -y
 VALIDATE $? "Installing Redis"
-
-sed -i -e "s/127.0.0.1/0.0.0.0/g
